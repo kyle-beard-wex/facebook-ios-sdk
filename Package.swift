@@ -113,21 +113,21 @@ extension Product {
 extension Target {
     static let binarySource = BinarySource()
 
-    static func binaryTarget(name: String, remoteChecksum: String) -> Target {
-        switch binarySource {
-        case .local:
-            return .binaryTarget(
-                name: name,
-                path: localBinaryPath(for: name)
-            )
-        case .remote:
-            return .binaryTarget(
-                name: name,
-                url: remoteBinaryURLString(for: name),
-                checksum: remoteChecksum
-            )
-        }
-    }
+    // static func binaryTarget(name: String, remoteChecksum: String) -> Target {
+    //     switch binarySource {
+    //     case .local:
+    //         return .binaryTarget(
+    //             name: name,
+    //             path: localBinaryPath(for: name)
+    //         )
+    //     case .remote:
+    //         return .binaryTarget(
+    //             name: name,
+    //             url: remoteBinaryURLString(for: name),
+    //             checksum: remoteChecksum
+    //         )
+    //     }
+    // }
 
     static func localBinaryPath(for targetName: String) -> String {
         "build/XCFrameworks/Static/\(targetName).xcframework"
@@ -156,27 +156,27 @@ extension Target {
     static let gaming = target(name: .gaming, dependencies: [.Prefixed.gaming])
 
     enum Prefixed {
-        static let basics = binaryTarget(
+        static let basics = .binaryTarget(
             name: .Prefixed.basics
         )
 
-        static let aem = binaryTarget(
+        static let aem = .binaryTarget(
             name: .Prefixed.aem
         )
 
-        static let core = binaryTarget(
+        static let core = .binaryTarget(
             name: .Prefixed.core
         )
 
-        static let login = binaryTarget(
+        static let login = .binaryTarget(
             name: .Prefixed.login
         )
 
-        static let share = binaryTarget(
+        static let share = .binaryTarget(
             name: .Prefixed.share
         )
 
-        static let gamingServices = binaryTarget(
+        static let gamingServices = .binaryTarget(
             name: .Prefixed.gaming
         )
     }
