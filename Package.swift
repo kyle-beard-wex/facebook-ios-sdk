@@ -155,27 +155,27 @@ extension Target {
     static let gaming = target(name: .gaming, dependencies: [.Prefixed.gaming])
 
     enum Prefixed {
-        static let basics = .binaryTarget(
+        static let basics = binaryTarget(
             name: .Prefixed.basics
         )
 
-        static let aem = .binaryTarget(
+        static let aem = binaryTarget(
             name: .Prefixed.aem
         )
 
-        static let core = .binaryTarget(
+        static let core = binaryTarget(
             name: .Prefixed.core
         )
 
-        static let login = .binaryTarget(
+        static let login = binaryTarget(
             name: .Prefixed.login
         )
 
-        static let share = .binaryTarget(
+        static let share = binaryTarget(
             name: .Prefixed.share
         )
 
-        static let gamingServices = .binaryTarget(
+        static let gamingServices = binaryTarget(
             name: .Prefixed.gaming
         )
     }
