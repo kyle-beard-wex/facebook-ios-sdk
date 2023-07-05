@@ -113,21 +113,20 @@ extension Product {
 extension Target {
     static let binarySource = BinarySource()
 
-    // static func binaryTarget(name: String, remoteChecksum: String) -> Target {
-    //     switch binarySource {
-    //     case .local:
-    //         return .binaryTarget(
-    //             name: name,
-    //             path: localBinaryPath(for: name)
-    //         )
-    //     case .remote:
-    //         return .binaryTarget(
-    //             name: name,
-    //             url: remoteBinaryURLString(for: name),
-    //             checksum: remoteChecksum
-    //         )
-    //     }
-    // }
+    static func binaryTarget(name: String) -> Target {
+        switch binarySource {
+        case .local:
+            return .binaryTarget(
+                name: name,
+                path: localBinaryPath(for: name)
+            )
+        case .remote:
+            return .binaryTarget(
+                name: name,
+                url: remoteBinaryURLString(for: name)
+            )
+        }
+    }
 
     static func localBinaryPath(for targetName: String) -> String {
         "build/XCFrameworks/Static/\(targetName).xcframework"
