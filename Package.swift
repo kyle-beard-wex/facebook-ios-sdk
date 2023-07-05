@@ -113,7 +113,7 @@ extension Product {
 extension Target {
     static let binarySource = BinarySource()
 
-    static func binaryTarget(name: String) -> Target {
+    static func binaryTarget(name: String, remoteChecksum: String) -> Target {
         switch binarySource {
         case .local:
             return .binaryTarget(
@@ -123,7 +123,8 @@ extension Target {
         case .remote:
             return .binaryTarget(
                 name: name,
-                url: remoteBinaryURLString(for: name)
+                url: remoteBinaryURLString(for: name),
+                checksum: remoteChecksum
             )
         }
     }
@@ -156,27 +157,33 @@ extension Target {
 
     enum Prefixed {
         static let basics = binaryTarget(
-            name: .Prefixed.basics
+            name: .Prefixed.basics,
+            remoteChecksum: "ba2fab4ac759fcb4aba48c25f1222c0839c697d7cb7de4a5e28befe26b0b3caa"
         )
 
         static let aem = binaryTarget(
-            name: .Prefixed.aem
+            name: .Prefixed.aem,
+            remoteChecksum: "8e9e1ef0aadbbd3e140822b0fc3313b011bb959c7cdad5f1c1745dd4e96d8c4c"
         )
 
         static let core = binaryTarget(
-            name: .Prefixed.core
+            name: .Prefixed.core,
+            remoteChecksum: "6fecfd2342d00a8020bc371b00b25cdd020acebed5ab20ef796c81d52fbcad22"
         )
 
         static let login = binaryTarget(
-            name: .Prefixed.login
+            name: .Prefixed.login,
+            remoteChecksum: "d98bd590683281d5c8c3ea900047c3586126465d34c3dc264b8d51c01019a328"
         )
 
         static let share = binaryTarget(
-            name: .Prefixed.share
+            name: .Prefixed.share,
+            remoteChecksum: "42d7dce3155e3c9c9a7db29789e3606757ad7b29a4f7ad9da77afbbe9bc41bd3"
         )
 
         static let gamingServices = binaryTarget(
-            name: .Prefixed.gaming
+            name: .Prefixed.gaming,
+            remoteChecksum: "91f7433eadf3257cf0ff2a80e3364d52dd5b542c72876f6cdc1e1f7a6aec556f"
         )
     }
 }
