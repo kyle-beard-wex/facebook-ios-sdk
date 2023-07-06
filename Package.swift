@@ -123,8 +123,7 @@ extension Target {
         case .remote:
             return .binaryTarget(
                 name: name,
-                url: remoteBinaryURLString(for: name),
-                checksum: remoteChecksum
+                url: remoteBinaryURLString(for: name)
             )
         }
     }
