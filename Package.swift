@@ -112,8 +112,8 @@ extension Product {
 
 extension Target {
     static let binarySource = BinarySource()
-
-    static func binaryTarget(name: String, remoteChecksum: String) -> Target {
+    
+    static func binaryTarget(name: String) -> Target {
         switch binarySource {
         case .local:
             return .binaryTarget(
@@ -123,11 +123,26 @@ extension Target {
         case .remote:
             return .binaryTarget(
                 name: name,
-                url: remoteBinaryURLString(for: name),
-                checksum: remoteChecksum
+                url: remoteBinaryURLString(for: name)
             )
         }
     }
+//
+//    static func binaryTarget(name: String, remoteChecksum: String) -> Target {
+//        switch binarySource {
+//        case .local:
+//            return .binaryTarget(
+//                name: name,
+//                path: localBinaryPath(for: name)
+//            )
+//        case .remote:
+//            return .binaryTarget(
+//                name: name,
+//                url: remoteBinaryURLString(for: name),
+//                checksum: remoteChecksum
+//            )
+//        }
+//    }
 
     static func localBinaryPath(for targetName: String) -> String {
         "build/XCFrameworks/Static/\(targetName).xcframework"
@@ -157,33 +172,33 @@ extension Target {
 
     enum Prefixed {
         static let basics = binaryTarget(
-            name: .Prefixed.basics,
-            remoteChecksum: "af64aad14fa8b0486ccb9f1483fe782e06acbe3309ff0c4143994bfc5ad62e6c"
+            name: .Prefixed.basics//,
+//            remoteChecksum: "af64aad14fa8b0486ccb9f1483fe782e06acbe3309ff0c4143994bfc5ad62e6c"
         )
 
         static let aem = binaryTarget(
-            name: .Prefixed.aem,
-            remoteChecksum: "d45388a46c0ac2e89c277136c6cc63137864b90022d2e785beb979ec09a8f70c"
+            name: .Prefixed.aem//,
+//            remoteChecksum: "d45388a46c0ac2e89c277136c6cc63137864b90022d2e785beb979ec09a8f70c"
         )
 
         static let core = binaryTarget(
-            name: .Prefixed.core,
-            remoteChecksum: "2c5c1c3532f357d2a0e89035d8a41421709cacbe505cbc25880960d6f5907170"
+            name: .Prefixed.core//,
+//            remoteChecksum: "2c5c1c3532f357d2a0e89035d8a41421709cacbe505cbc25880960d6f5907170"
         )
 
         static let login = binaryTarget(
-            name: .Prefixed.login,
-            remoteChecksum: "9bd091a4accb23a143f6de71f0267279616287fa931138766723471242606bf8"
+            name: .Prefixed.login//,
+//            remoteChecksum: "9bd091a4accb23a143f6de71f0267279616287fa931138766723471242606bf8"
         )
 
         static let share = binaryTarget(
-            name: .Prefixed.share,
-            remoteChecksum: "1dd3dd20ed42d651b992b9b1b71742c9e90630085f22f683d220bc64fca5321e"
+            name: .Prefixed.share//,
+//            remoteChecksum: "1dd3dd20ed42d651b992b9b1b71742c9e90630085f22f683d220bc64fca5321e"
         )
 
         static let gamingServices = binaryTarget(
-            name: .Prefixed.gaming,
-            remoteChecksum: "fd6bb813cae23716afbc6f5f0c229bb5847b15bc3b6c50448b7b340b07213469"
+            name: .Prefixed.gaming//,
+//            remoteChecksum: "fd6bb813cae23716afbc6f5f0c229bb5847b15bc3b6c50448b7b340b07213469"
         )
     }
 }
