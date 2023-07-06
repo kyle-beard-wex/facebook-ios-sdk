@@ -111,21 +111,26 @@ extension Product {
 }
 
 extension Target {
-    static let binarySource = BinarySource()
+//    static let binarySource = BinarySource()
 
     static func binaryTarget(name: String, remoteChecksum: String) -> Target {
-        switch binarySource {
-        case .local:
-            return .binaryTarget(
-                name: name,
-                path: localBinaryPath(for: name)
-            )
-        case .remote:
-            return .binaryTarget(
-                name: name,
-                url: remoteBinaryURLString(for: name)
-            )
-        }
+        return .binaryTarget(
+            name: name,
+            path: localBinaryPath(for: name)
+        )
+//        switch binarySource {
+//        case .local:
+//            return .binaryTarget(
+//                name: name,
+//                path: localBinaryPath(for: name)
+//            )
+//        case .remote:
+//            return .binaryTarget(
+//                name: name,
+//                url: remoteBinaryURLString(for: name),
+//                checksum: remoteChecksum
+//            )
+//        }
     }
 
     static func localBinaryPath(for targetName: String) -> String {
@@ -133,7 +138,7 @@ extension Target {
     }
 
     static func remoteBinaryURLString(for targetName: String) -> String {
-        "https://github.com/kyle-beard-wex/facebook-ios-sdk/releases/download/1.0.0/\(targetName)-Static_XCFramework.zip"
+        "https://github.com/facebook/facebook-ios-sdk/releases/download/v16.1.2/\(targetName)-Static_XCFramework.zip"
     }
 
     static let aem = target(name: .aem, dependencies: [.Prefixed.aem])
@@ -154,6 +159,7 @@ extension Target {
 
     static let gaming = target(name: .gaming, dependencies: [.Prefixed.gaming])
 
+    /// NOTE: The checksum on an M1 machine differs from Intel, therefore our local SPM vs. Azure's SPM will not be the same...
     enum Prefixed {
         static let basics = binaryTarget(
             name: .Prefixed.basics,
@@ -207,17 +213,17 @@ extension LinkerSetting {
     static let accelerateFramework = linkedFramework("Accelerate")
 }
 
-enum BinarySource {
-    case local, remote
-
-    init() {
-        if getenv("USE_LOCAL_FB_BINARIES") != nil {
-            self = .local
-        } else {
-            self = .remote
-        }
-    }
-}
+//enum BinarySource {
+//    case local, remote
+//
+//    init() {
+//        if getenv("USE_LOCAL_FB_BINARIES") != nil {
+//            self = .local
+//        } else {
+//            self = .remote
+//        }
+//    }
+//}
 
 extension String {
     static let aem = "FacebookAEM"
