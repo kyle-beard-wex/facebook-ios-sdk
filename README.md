@@ -1,7 +1,13 @@
 # Facebook SDK for iOS
 This repository has been forked from https://github.com/facebook/facebook-ios-sdk 
 
-The latest release compatible is v16.1.2. Read below for updating this repo for future necessary releases.
+Read below for updating this repo for future necessary releases.
 
 ## Instructions
-To update to a newer release, you'll need to copy over the checksums for each SDK binary for the remote `Prefixed` configuration in `Package.swift`, and then run `swift package compute-checksum <binary>.zip` on your local WEX machine to get the checksum differential that is changed when Netskope unzips and rezips the file during download for the local `Prefixed` configuration. Then, ensure the remote binary URL has the correct release version in the path. If you hit any issues, check to ensure the `IGNORE_WEX_CHECKSUM` env variable is set in the Fastfile and is being set in the pipeline, but not on your local machine.
+The `Package.swift` file in this repository differs from the upstream Facebook SDK file as we have tweaked it to allow for both local (WEX computers) and remote (non-WEX computers like ADO) to handle different checksums depending on environment, which is checked by the environment variable `IGNORE_WEX_CHECKSUM` existing. We only set this value in the pipeline Fastfile. When wanting to pull in the latest, run the following commands:
+
+1. If the upstream wasn't set locally yet, run `git remote add upstream https://github.com/facebook/facebook-ios-sdk` before continuing. 
+2. Run `git fetch upstream && git merge upstream/main` which will pull in Facebook SDK's main branch into the local main branch of the fork. You'll have conflicts in the Package.swift file so be very cautious to cherrypick only necessary chages without disrupting this forked repo's architecture of that file. Refer to Kyle Beard on how to merge appropriately.
+3. Run `bash checksum_generator.sh` to generate the prinouts for the local and remote checksums and update them appropriately in the Package file.
+4. Be sure to not merge back into main, but cut a release/x.x.x branch and push up. Then tag the release so it's accessible from Swift Package Manager.
+5. Once Xcode verified a successful build of the latest tagged version, you can merge that release branch into this forked repo's main branch.
