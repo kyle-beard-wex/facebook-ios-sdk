@@ -52,6 +52,7 @@ let package = Package(
     targets: [
         // The kernel of the SDK
         .Prefixed.basics,
+        .basics,
 
         /*
           The legacy Objective-C implementation that will be converted to Swift.
@@ -102,7 +103,7 @@ let package = Package(
 )
 
 extension Product {
-    static let basics = library(name: .basics, targets: [.Prefixed.basics])
+    static let basics = library(name: .basics, targets: [.basics, .Prefixed.basics])
     static let core = library(name: .core, targets: [.core, .Prefixed.core])
     static let login = library(name: .login, targets: [.login])
     static let share = library(name: .share, targets: [.share, .Prefixed.share])
@@ -118,14 +119,31 @@ extension Target {
     }
 
     static func remoteBinaryURLString(for targetName: String) -> String {
-        "https://github.com/facebook/facebook-ios-sdk/releases/download/v16.1.2/\(targetName)-Static_XCFramework.zip"
+        "https://github.com/facebook/facebook-ios-sdk/releases/download/v17.0.0/\(targetName)-Dynamic_XCFramework.zip"
     }
-    
-    static let aem = target(name: .aem, dependencies: [.Prefixed.aem])
+
+    static let basics = target(
+        name: .basics,
+        dependencies: [.Prefixed.basics],
+        resources: [
+           .copy("Resources/PrivacyInfo.xcprivacy"),
+        ]
+    )
+
+    static let aem = target(
+        name: .aem,
+        dependencies: [.Prefixed.aem],
+        resources: [
+           .copy("Resources/PrivacyInfo.xcprivacy"),
+        ]
+    )
 
     static let core = target(
         name: .core,
         dependencies: [.aem, .Prefixed.basics, .Prefixed.core],
+        resources: [
+           .copy("Resources/PrivacyInfo.xcprivacy"),
+        ],
         linkerSettings: [
             .cPlusPlusLibrary,
             .zLibrary,
@@ -133,11 +151,23 @@ extension Target {
         ]
     )
 
-    static let login = target(name: .login, dependencies: [.core, .Prefixed.login])
+    static let login = target(
+        name: .login,
+        dependencies: [.core, .Prefixed.login],
+        resources: [
+            .copy("Resources/PrivacyInfo.xcprivacy"),
+        ]
+    )
 
-    static let share = target(name: .share, dependencies: [.core, .Prefixed.share])
+    static let share = target(
+        name: .share,
+        dependencies: [.core, .Prefixed.share],
+        resources: [
+           .copy("Resources/PrivacyInfo.xcprivacy"),
+        ]
+    )
 
-    static let gaming = target(name: .gaming, dependencies: [.Prefixed.gaming])
+    static let gaming = target(name: .gaming, dependencies: [.core, .Prefixed.share, .Prefixed.gaming])
 
     enum Prefixed {
         static let basics = binaryTarget(
@@ -196,7 +226,11 @@ enum BinarySource {
     case local, remote
 
     init() {
-        self = getenv("IGNORE_WEX_CHECKSUM") != nil ? .remote : .local
+        if getenv("USE_LOCAL_FB_BINARIES") != nil {
+            self = .local
+        } else {
+            self = .remote
+        }
     }
 }
 
@@ -216,7 +250,7 @@ extension String {
         static let share = "FBSDKShareKit"
         static let gaming = "FBSDKGamingServicesKit"
     }
-    
+
     /// This checksum corresponds to the WEX Netskope fuckery that occurs when they unzip and rezip files -_-
     enum LocalChecksum {
         static let aem = "d45388a46c0ac2e89c277136c6cc63137864b90022d2e785beb979ec09a8f70c"
@@ -226,14 +260,14 @@ extension String {
         static let share = "1dd3dd20ed42d651b992b9b1b71742c9e90630085f22f683d220bc64fca5321e"
         static let gaming = "fd6bb813cae23716afbc6f5f0c229bb5847b15bc3b6c50448b7b340b07213469"
     }
-    
+
     /// This corresponds to the checksum that everyone else more fortunate to not encounter Netskope would see.
     enum RemoteChecksum {
-        static let aem = "8e9e1ef0aadbbd3e140822b0fc3313b011bb959c7cdad5f1c1745dd4e96d8c4c"
-        static let basics = "ba2fab4ac759fcb4aba48c25f1222c0839c697d7cb7de4a5e28befe26b0b3caa"
-        static let core = "6fecfd2342d00a8020bc371b00b25cdd020acebed5ab20ef796c81d52fbcad22"
-        static let login = "d98bd590683281d5c8c3ea900047c3586126465d34c3dc264b8d51c01019a328"
-        static let share = "42d7dce3155e3c9c9a7db29789e3606757ad7b29a4f7ad9da77afbbe9bc41bd3"
-        static let gaming = "91f7433eadf3257cf0ff2a80e3364d52dd5b542c72876f6cdc1e1f7a6aec556f"
+        static let aem = "6568e253756f2fa9047d59bc72b57c9737448167ab3e1cc3568a2dc08cafd9d3"
+        static let basics = "033a40dc5d9e0341629a0efa09830bc061b65bb41afe2768f01ad662935f0e47"
+        static let core = "d556dff856187542463a69b7b72d5cf642ca1adce2e8c2d7c3c2ab15173caafa"
+        static let login = "5acf22e3e6071bc24d043cc91a84d857a866b328009aa090e09f92dbb3341880"
+        static let share = "806d80c323374b25c8ad2eeedc5a82764acf842860afa5c9c6cdc0baa9d6f9c5"
+        static let gaming = "5061d084c5f5f97fba33a0bbac8911cbc1e965cc05c9ea8c2fc892f739d9dd63"
     }
 }

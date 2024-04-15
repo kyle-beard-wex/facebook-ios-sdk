@@ -74,6 +74,7 @@ enum TestCoreKitComponents {
     sessionDataTaskProvider: URLSessionProviding = TestSessionProvider(),
     settings: SettingsLogging & SettingsProtocol = TestSettings(),
     skAdNetworkReporter: (SKAdNetworkReporting & _AppEventsReporter)? = TestSKAdNetworkReporter(),
+    skAdNetworkReporterV2: (SKAdNetworkReporting & _AppEventsReporter)? = TestSKAdNetworkReporterV2(),
     suggestedEventsIndexer: _SuggestedEventsIndexerProtocol = TestSuggestedEventsIndexer(),
     swizzler: _Swizzling.Type = TestSwizzler.self,
     timeSpentRecorder: _SourceApplicationTracking & _TimeSpentRecording = TestTimeSpentRecorder(),
@@ -85,7 +86,10 @@ enum TestCoreKitComponents {
     webViewProvider: _WebViewProviding = TestWebViewFactory(),
     aemManager: _AutoSetup = TestAEMManager(),
     protectedModeManager: _AppEventsParameterProcessing = TestAppEventsParameterProcessor(),
-    macaRuleMatchingManager: MACARuleMatching = TestMACARuleMatchingManager()
+    macaRuleMatchingManager: MACARuleMatching = TestMACARuleMatchingManager(),
+    blocklistEventsManager: _EventsProcessing = TestBlocklistEventsManager(),
+    redactedEventsManager: _EventsProcessing = TestRedactedEventsManager(),
+    sensitiveParamsManager: _AppEventsParameterProcessing = TestSensitiveParamsManager()
   ) -> CoreKitComponents {
     CoreKitComponents(
       accessTokenExpirer: accessTokenExpirer,
@@ -148,6 +152,7 @@ enum TestCoreKitComponents {
       sessionDataTaskProvider: sessionDataTaskProvider,
       settings: settings,
       skAdNetworkReporter: skAdNetworkReporter,
+      skAdNetworkReporterV2: skAdNetworkReporterV2,
       suggestedEventsIndexer: suggestedEventsIndexer,
       swizzler: swizzler,
       timeSpentRecorder: timeSpentRecorder,
@@ -159,7 +164,10 @@ enum TestCoreKitComponents {
       webViewProvider: webViewProvider,
       aemManager: aemManager,
       protectedModeManager: protectedModeManager,
-      macaRuleMatchingManager: macaRuleMatchingManager
+      macaRuleMatchingManager: macaRuleMatchingManager,
+      blocklistEventsManager: blocklistEventsManager,
+      redactedEventsManager: redactedEventsManager,
+      sensitiveParamsManager: sensitiveParamsManager
     )
   }
 }

@@ -52,6 +52,9 @@ final class TestAppEvents: TestEventLogger,
   var capturedConfigureEventDeactivationParameterProcessor: _AppEventsParameterProcessing?
   var capturedConfigureProtectedModeManager: _AppEventsParameterProcessing?
   var capturedConfigureMACARuleMatchingManager: MACARuleMatching?
+  var capturedConfigureBlocklistEventsManager: _EventsProcessing?
+  var capturedConfigureRedactedEventsManager: _EventsProcessing?
+  var capturedConfigureSensitiveParamsManager: _AppEventsParameterProcessing?
   var capturedConfigureRestrictiveDataFilterParameterProcessor: _AppEventsParameterProcessing?
   var capturedConfigureATEPublisherFactory: _ATEPublisherCreating?
   var capturedConfigureAppEventsStateProvider: _AppEventsStateProviding?
@@ -60,6 +63,7 @@ final class TestAppEvents: TestEventLogger,
   var capturedOnDeviceMLModelManager: _EventProcessing?
   var capturedMetadataIndexer: _MetadataIndexing?
   var capturedSKAdNetworkReporter: _AppEventsReporter?
+  var capturedSKAdNetworkReporterV2: _AppEventsReporter?
   var capturedUserDataStore: _UserDataPersisting?
   var capturedAEMReporter: _AEMReporterProtocol.Type?
   // swiftlint:disable:next line_length
@@ -91,7 +95,10 @@ final class TestAppEvents: TestEventLogger,
     internalUtility: InternalUtilityProtocol,
     capiReporter: CAPIReporter,
     protectedModeManager: _AppEventsParameterProcessing,
-    macaRuleMatchingManager: MACARuleMatching
+    macaRuleMatchingManager: MACARuleMatching,
+    blocklistEventsManager: _EventsProcessing,
+    redactedEventsManager: _EventsProcessing,
+    sensitiveParamsManager: _AppEventsParameterProcessing
   ) {
     capturedConfigureGateKeeperManager = gateKeeperManager
     capturedConfigureAppEventsConfigurationProvider = appEventsConfigurationProvider
@@ -115,6 +122,9 @@ final class TestAppEvents: TestEventLogger,
     capturedCAPIReporter = capiReporter
     capturedConfigureProtectedModeManager = protectedModeManager
     capturedConfigureMACARuleMatchingManager = macaRuleMatchingManager
+    capturedConfigureBlocklistEventsManager = blocklistEventsManager
+    capturedConfigureRedactedEventsManager = redactedEventsManager
+    capturedConfigureSensitiveParamsManager = sensitiveParamsManager
   }
 
   // swiftlint:disable:next function_parameter_count
@@ -122,6 +132,7 @@ final class TestAppEvents: TestEventLogger,
     onDeviceMLModelManager modelManager: _EventProcessing,
     metadataIndexer: _MetadataIndexing,
     skAdNetworkReporter: _AppEventsReporter?,
+    skAdNetworkReporterV2: _AppEventsReporter?,
     codelessIndexer: _CodelessIndexing.Type,
     swizzler: _Swizzling.Type,
     aemReporter: _AEMReporterProtocol.Type
@@ -129,6 +140,7 @@ final class TestAppEvents: TestEventLogger,
     capturedOnDeviceMLModelManager = modelManager
     capturedMetadataIndexer = metadataIndexer
     capturedSKAdNetworkReporter = skAdNetworkReporter
+    capturedSKAdNetworkReporterV2 = skAdNetworkReporterV2
     capturedCodelessIndexer = codelessIndexer
     capturedConfigureSwizzler = swizzler
     capturedAEMReporter = aemReporter
