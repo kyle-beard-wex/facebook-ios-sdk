@@ -226,11 +226,7 @@ enum BinarySource {
     case local, remote
 
     init() {
-        if getenv("USE_LOCAL_FB_BINARIES") != nil {
-            self = .local
-        } else {
-            self = .remote
-        }
+        self = getenv("IGNORE_WEX_CHECKSUM") != nil ? .remote : .local
     }
 }
 
@@ -242,6 +238,7 @@ extension String {
     static let share = "FacebookShare"
     static let gaming = "FacebookGamingServices"
 
+    /// Download the .zip files with these prefixed names that correspond to the remote URL above.
     enum Prefixed {
         static let aem = "FBAEMKit"
         static let basics = "FBSDKCoreKit_Basics"
@@ -253,12 +250,12 @@ extension String {
 
     /// This checksum corresponds to the WEX Netskope fuckery that occurs when they unzip and rezip files -_-
     enum LocalChecksum {
-        static let aem = "d45388a46c0ac2e89c277136c6cc63137864b90022d2e785beb979ec09a8f70c"
-        static let basics = "af64aad14fa8b0486ccb9f1483fe782e06acbe3309ff0c4143994bfc5ad62e6c"
-        static let core = "2c5c1c3532f357d2a0e89035d8a41421709cacbe505cbc25880960d6f5907170"
-        static let login = "9bd091a4accb23a143f6de71f0267279616287fa931138766723471242606bf8"
-        static let share = "1dd3dd20ed42d651b992b9b1b71742c9e90630085f22f683d220bc64fca5321e"
-        static let gaming = "fd6bb813cae23716afbc6f5f0c229bb5847b15bc3b6c50448b7b340b07213469"
+        static let aem = "44b202760fb8d68dd63af67bb6e4fbf73b3aa8bd9852437da3a2835e55c454f0"
+        static let basics = "385f54c71a1cf551c741fcb87fb87b072dbd46378af9922b207b89325a9b5969"
+        static let core = "f1c454892025bb45c0e72402c8a15bbe235641c9d41cab1850c09be864e9511a"
+        static let login = "971d6dc6917486fe74a8ee781d6dc534d986815f0bd5ecc907259d670cd2aed5"
+        static let share = "cfdc89eab2e50a33293aeafea79ce098015d5b5e2e4b1eabb142aa488e0674d4"
+        static let gaming = "83bf46b0fbbf9a665fbc349b089943017415b982e09d7cfecbfa0d3bbde626bb"
     }
 
     /// This corresponds to the checksum that everyone else more fortunate to not encounter Netskope would see.
